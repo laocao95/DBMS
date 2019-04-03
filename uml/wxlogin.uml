@@ -1,0 +1,59 @@
+@startuml
+autonumber
+title Wechat login
+skinparam sequence {
+	ArrowColor black
+	ActorBorderColor black
+	LifeLineBorderColor black
+	LifeLineBackgroundColor black
+	ParticipantBorderColor black
+	ParticipantFontColor black
+}
+participant "client" as c
+participant "server" as s
+participant "wechat server" as w
+participant "database" as d
+
+note over c,w
+	18.11.5 basic
+	18.11.25 1.0
+end note
+c -> c: getUserKeyInStorage()
+alt user_key == null
+	c -> c: wx.login()
+	c -> s: wx.request(code)
+	note left
+		method: post
+		url: /wxlogin
+		body {
+			wxCode:""
+		}
+	end note
+	s -> w: code2session(appid, appSecret, code)
+	w --> s: openid, session_key
+	s -> s: user_key = sha1(openid)
+	s -> d: user_key, openid, session_key
+	s --> c: user_key
+	c -> c: saveUserKeyInStorage(user_key)
+	c -> c: getUserInfo(withCredentials = false)
+	w --> c:UserInfo
+	c -> s: updateUserInfo(name = UserInfo.name)
+	note left
+	header: {
+		x-token: user_key
+	}
+	end note
+	s --> c: success
+
+else
+
+== Normal request ==
+	c -> s: wx.request()
+	note left
+		header: {
+			x-token: user_key
+		}
+	end note
+
+end alt
+@enduml
