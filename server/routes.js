@@ -7,7 +7,8 @@ const jwt = require('jsonwebtoken')
 const managementLogin = require('./controllers/managementLogin')
 const teacher = require('./controllers/teacher')
 const sale = require('./controllers/sale')
-
+const operation = require('./controllers/operation')
+const classAnalysis = require('./controllers/classAnalysis')
 //common
 
 router.post('/common/managementlogin', managementLogin)
@@ -41,5 +42,11 @@ router.post('/management/updateTeacherDetail', teacher.updateTeacherDetail)
 router.get('/management/getTeachers', teacher.getTeachers)
 
 router.get('/management/salesMonthly', sale.salesMonthly)
+
+router.get('/management/salesYearly', sale.salesYearly)
+
+router.get('/management/userDataCompare', operation.userDataCompare)
+
+router.get('/management/classAnalysis', classAnalysis.classAnalysis)
 
 module.exports = router

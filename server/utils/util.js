@@ -9,7 +9,7 @@ function checkCurriculumTime(curriculumItem) {
     //utc time
     var classDate = curriculumItem.class_date
 
-    var classTime = new Date(classDate.getFullYear() + '-' + (classDate.getMonth() + 1) + '-' + classDate.getDate() + ' ' + curriculumItem.class_stime)
+    var classTime = new Date(classDate + ' ' + curriculumItem.class_stime)
 
     var curTime = new Date()
  
@@ -186,6 +186,11 @@ function getConfig() {
     return config
 }
 
+function toTimeStamp(str) {
+
+    var result = 'to_timestamp(\'' + str + '\',\'yyyy-mm-dd hh24:mi:ss\')'
+    return result
+}
 
 module.exports = {
     checkCurriculumTime,
@@ -197,5 +202,6 @@ module.exports = {
     getRawBody,
     mapProperty,
     validateObj,
-    getConfig
+    getConfig,
+    toTimeStamp
 }

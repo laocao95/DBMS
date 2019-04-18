@@ -11,14 +11,15 @@ async function getOrderByCurriculumId(ctx, next) {
         student_name: 'student-name',
         //student_phone: 'student-phone',
         price: 'price',
-        confirm: 'confirm'
+        confirmation: 'confirm'
     }
     var curriculumId = ctx.query['curriculum-id']
     var orderList = []
 
     try {
         //var orderInDb = await db.select('customer_order', {curriculum_id: curriculumId})
-        var orderInDb = await db.where({curriculum_id: curriculumId}).select().from('customer_order').innerJoin('student', 'student.student_id', 'customer_order.student_id')
+        var orderInDb = await db.select().from('customer_order').innerJoin('student', 'student.student_id', 'customer_order.student_id')
+        //var orderInDb = await db.select().from('customer_order');
         console.log(orderInDb)
         _.forEach(orderInDb, item => {      
             var orderTime = item.order_time

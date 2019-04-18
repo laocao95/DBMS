@@ -12,7 +12,7 @@ async function addCurriculum(ctx, next) {
         class_etime: ctx.request.body['class-etime'],
         teacher_id: ctx.request.body['teacher-id'],
         price: ctx.request.body['price'],
-        size: ctx.request.body['size'],
+        cur_size: ctx.request.body['size'],
         sold: 0,
         discount: ctx.request.body['discount'],
         //onshelf: ctx.request.body['onshelf']
@@ -80,7 +80,7 @@ async function getCurriculum (ctx, next) {
         teacher_name: 'teacher-name',
         teacher_pic: 'teacher_pic',
         teacher_logo: 'teacher-logo',
-        size: 'size',
+        cur_size: 'size',
         price: 'price',
         discount: 'discount',
         sold: 'sold',
@@ -116,10 +116,6 @@ async function getCurriculum (ctx, next) {
             item.onshelf = timeValid
             var rawList = item.instrument_type.split('↵')
             item.instrument_type = rawList.map(item => parseInt(item))
-            var classDate = item.class_date
-            var classMon = classDate.getMonth() + 1 > 9 ? (classDate.getMonth() + 1) : '0' + (classDate.getMonth() + 1)
-            var classDay = classDate.getDate() > 9 ? classDate.getDate() : ('0' + classDate.getDate())
-            item.class_date = classDate.getFullYear() + '-' + classMon + '-'+ classDay
             item.class_stime = item.class_stime.substring(0, 5)
             item.class_etime = item.class_etime.substring(0, 5)
         }
@@ -195,7 +191,7 @@ async function updateCurriculumById(ctx, next) {
         // class_stime: ctx.request.body['class-stime'],
         // class_etime: ctx.request.body['class-etime'],
         price: ctx.request.body['price'],
-        size: ctx.request.body['size'],
+        cur_size: ctx.request.body['size'],
         discount: ctx.request.body['discount']
         //onshelf: ctx.request.body['onshelf']
     }
