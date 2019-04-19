@@ -9,6 +9,7 @@ const teacher = require('./controllers/teacher')
 const sale = require('./controllers/sale')
 const operation = require('./controllers/operation')
 const classAnalysis = require('./controllers/classAnalysis')
+const graph = require('./controllers/graph')
 //common
 
 router.post('/common/managementlogin', managementLogin)
@@ -48,5 +49,7 @@ router.get('/management/salesYearly', sale.salesYearly)
 router.get('/management/userDataCompare', operation.userDataCompare)
 
 router.get('/management/classAnalysis', classAnalysis.classAnalysis)
+
+router.get('/management/userGraph', graph.userGraph)
 
 module.exports = router
