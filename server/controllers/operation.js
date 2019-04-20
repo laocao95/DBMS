@@ -22,10 +22,10 @@ async function userDataCompare (ctx, next) {
             .select()
             .from('student')
             .where('store_id', storeIdOp, storeId)
-            .count('store_id as student_amount')
+            .countDistinct('openid as student_amount')
 
         var column0 = [
-            db.raw('\"std_val\" \/ \"usr_val\" as \"cvs_rate\"')
+            db.raw('round(\"std_val\" \/ \"usr_val\", 2) as \"cvs_rate\"')
         ]
 
         var cvs_rate = await db
@@ -35,7 +35,6 @@ async function userDataCompare (ctx, next) {
                     this.select()
                     .from('wx_session')
                     .count('openid as usr_val')
-                    .as('usr')
                 }
             )
             .crossJoin(
@@ -43,14 +42,13 @@ async function userDataCompare (ctx, next) {
                     this.select()
                     .from('student')
                     .where('store_id', storeIdOp, storeId)
-                    .count('student_id as std_val')
-                    .as('std')
+                    .countDistinct('openid as std_val')
                 }
             )
 
         //two_repeat_purchase_rate
         var column1 = [
-            db.raw('\"std_buy_two\" \/ \"std_val\" as \"two_rate\"')
+            db.raw('round(\"std_buy_two\" \/ \"std_val\", 2) as \"two_rate\"')
         ]
         
         var trp_rate = await db
@@ -102,11 +100,6 @@ async function userDataCompare (ctx, next) {
         .from('tmp1')
         .crossJoin('tmp0')
         
-        var column3 = [
-            db.raw('extract(day from \"order_time\") as \"day\"'),
-            'customer_order.order_id'
-        ]
-
 
         rsp = {
             code: 200, 
