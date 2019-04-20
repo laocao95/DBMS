@@ -16,14 +16,14 @@ async function classAnalysis (ctx, next) {
 
         var columns1 = [
             'class_id',
-            db.raw('SUM (sold) as soldnum'),
-            db.raw('SUM (size) as allnum'),
-            db.raw('(SUM (sold) * 100 / SUM (size)) as rate')
+            db.raw('SUM ("sold") as "soldnum"'),
+            db.raw('SUM ("cur_size") as "allnum"'),
+            db.raw('(SUM ("sold") * 100 / SUM ("cur_size")) as "rate"')
         ]
 
         var columns2 = [
             'class_name',
-            db.raw('cast(rate as integer)')
+            db.raw('cast("rate" as integer) as "rate"')
         ]
 
         var classRank = await db.with('tmp', qb => {
@@ -39,7 +39,7 @@ async function classAnalysis (ctx, next) {
 
         var columns3 = [
             'class_type',
-            db.raw('cast((SUM (sold) * 100 / SUM (size)) as integer) as rate')
+            db.raw('cast((SUM ("sold") * 100 / SUM ("cur_size")) as integer) as "rate"')
         ]
 
         var typeRank = await db.select(columns3)
@@ -51,7 +51,7 @@ async function classAnalysis (ctx, next) {
 
         var columns4 = [
             'instrument_type',
-            db.raw('(SUM (sold) * 100 / SUM (size)) as rate')
+            db.raw('(SUM ("sold") * 100 / SUM ("cur_size")) as "rate"')
         ]
 
         var instrumentRaw = await db.select(columns4)

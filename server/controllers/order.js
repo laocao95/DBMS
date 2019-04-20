@@ -18,9 +18,9 @@ async function getOrderByCurriculumId(ctx, next) {
 
     try {
         //var orderInDb = await db.select('customer_order', {curriculum_id: curriculumId})
-        var orderInDb = await db.select().from('customer_order').innerJoin('student', 'student.student_id', 'customer_order.student_id')
+        var orderInDb = await db.where({curriculum_id: curriculumId}).select().from('customer_order').innerJoin('student', 'student.student_id', 'customer_order.student_id')
         //var orderInDb = await db.select().from('customer_order');
-        console.log(orderInDb)
+        console.log(orderInDb.length)
         _.forEach(orderInDb, item => {      
             var orderTime = item.order_time
             var orderMon = orderTime.getMonth() + 1 > 9 ? (orderTime.getMonth() + 1) : '0' + (orderTime.getMonth() + 1)
