@@ -11,8 +11,12 @@ async function userGraph (ctx, next) {
         const year = ctx.query['year']
         var result
         var userResult
-        const startYear = parseInt(yearMonth.split('-')[0])
-        const startMonth = parseInt(yearMonth.split('-')[1])
+        var startYear
+        var startMonth
+        if(yearMonth != null) {
+            startYear = parseInt(yearMonth.split('-')[0])
+            startMonth = parseInt(yearMonth.split('-')[1])
+        }
         var nextMonth = startMonth + 1
         var storeIdOp = '='
         if (storeId == 0) {
